@@ -1,4 +1,4 @@
-# LLM Routing Experiment (MLX setup)
+## LLM Scale v/s Routing
 
 This is a simple setup to compare:
 
@@ -8,15 +8,15 @@ This is a simple setup to compare:
 
 Everything runs locally using MLX servers.
 
-## Setup
+### Setup
 
-### 1. Install dependencies
+#### 1. Install dependencies
 
 ```bash
 uv add mlx-lm hf-transfer datasets requests matplotlib catppuccin
 ```
 
-### 2. Download models
+#### 2. Download models
 
 ```bash
 export HF_HUB_ENABLE_HF_TRANSFER=1
@@ -34,15 +34,15 @@ hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit \
   --local-dir ~/Desktop/Models/Qwen2.5-1.5B-Instruct-4bit
 ```
 
-### Start MLX servers
+#### Start MLX servers
 
-#### Big model (7B)
+###### Big model (7B)
 
 ```bash
 mlx_lm.server --model ~/Desktop/Models/Qwen2.5-7B-Instruct-4bit --port 8000
 ```
 
-#### Small models
+###### Small models
 `
 ```bash
 mlx_lm.server --model ~/Desktop/Models/deepseek-coder-1.3b-instruct-4bit --port 8001
@@ -52,7 +52,7 @@ mlx_lm.server --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct-4bit --port 8003
 
 Keep these running during evaluation.
 
-## Run experiments
+### Run experiments
 
 ```bash
 python eval.py --mode big
@@ -60,7 +60,7 @@ python eval.py --mode routed
 python eval.py --mode vote
 ```
 
-## Plot results
+### Plot results
 
 ```bash
 python plot.py
