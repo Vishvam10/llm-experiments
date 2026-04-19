@@ -87,18 +87,53 @@ def plot_embedding_3d(
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection="3d")
 
+    # Dark theme
+    fig.patch.set_facecolor("#1e1e2e")
+    ax.set_facecolor("#1e1e2e")
+
     for p in data["points"]:
         marker = "o" if p["context"] == "no_ctx" else "x"
         color = get_color(get_category(p["task"]))
 
-        ax.scatter(p["x"], p["y"], p["z"], marker=marker, color=color)
+        x, y, z = p["x"], p["y"], p["z"]
+
+        ax.scatter(x, y, z, marker=marker, color=color)
+        jitter = np.random.uniform(0.005, 0.02)
+        ax.text(
+            x + jitter,
+            y + jitter,
+            z + jitter,
+            str(p["index"]),
+            fontsize=7,
+        )
+
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_zticks([])
+
+    ax.xaxis.pane.fill = True
+    ax.yaxis.pane.fill = True
+    ax.zaxis.pane.fill = True
+
+    ax.xaxis.pane.set_facecolor("#1e1e2e")
+    ax.yaxis.pane.set_facecolor("#1e1e2e")
+    ax.zaxis.pane.set_facecolor("#1e1e2e")
+
+    ax.grid(False)
 
     ax.set_title(f"{data['method'].upper()}-3D Layer {data['layer']}")
 
-    plt.tight_layout()
+    fig.legend(
+        handles=build_legend(categories, get_color),
+        loc="upper center",
+        ncol=6,
+        bbox_to_anchor=(0.5, 0.95),
+        frameon=False,
+    )
+
+    plt.tight_layout(rect=[0, 0, 1, 0.92])
     plt.savefig(results_dir / filename, dpi=200)
     plt.close()
-
 
 def plot_embedding(
     data, filename, results_dir, get_category, categories, get_color
@@ -116,12 +151,86 @@ def plot_embedding(
 def plot_multi_embedding(
     layers, results_dir, get_category, categories, get_color
 ):
-    for layer in layers:
-        plot_embedding(
-            layer,
-            filename=f"{layer['method']}_{layer['dim']}d_layer_{layer['layer']}.png",
-            results_dir=results_dir,
-            get_category=get_category,
-            categories=categories,
-            get_color=get_color,
-        )
+    num_layers = len(layers)
+    dim = layers[0]["dim"]
+    method = layers[0]["method"]
+
+    cols = 4
+    rows = int(np.ceil(num_layers / cols))
+
+    fig = plt.figure(figsize=(4 * cols, 4 * rows))
+
+    axes = []
+    for i in range(num_layers):
+        if dim == 2:
+            ax = fig.add_subplot(rows, cols, i + 1)
+        else:
+            ax = fig.add_subplot(rows, cols, i + 1, projection="3d")
+        axes.append(ax)
+
+    for _, (layer_data, ax) in enumerate(zip(layers, axes)):
+        for p in layer_data["points"]:
+            marker = "o" if p["context"] == "no_ctx" else "x"
+            color = get_color(get_category(p["task"]))
+
+            if dim == 2:
+                ax.scatter(p["x"], p["y"], marker=marker, color=color)
+            else:
+                ax.scatter(p["x"], p["y"], p["z"], marker=marker, color=color)
+
+        ax.set_title(f"L{layer_data['layer']}", fontsize=10)
+
+        ax.set_xticks([])
+        ax.set_yticks([])
+        if dim == 3:
+            ax.set_zticks([])
+
+            ax.xaxis.pane.fill = True
+            ax.yaxis.pane.fill = True
+            ax.zaxis.pane.fill = True
+
+            ax.xaxis.pane.set_facecolor("#1e1e2e")
+            ax.yaxis.pane.set_facecolor("#1e1e2e")
+            ax.zaxis.pane.set_facecolor("#1e1e2e")
+
+            ax.grid(False)
+
+    for j in range(len(axes), rows * cols):
+        fig.delaxes(fig.add_subplot(rows, cols, j + 1))
+
+
+    fig.suptitle(
+        f"{method.upper()}-{dim}D Across Layers",
+        fontsize=16,
+        y=0.98,
+    )
+
+    subtitle = (
+        "Points closer together have more similar representations. "
+        "Separation indicates stronger contextual or task-specific divergence."
+    )
+
+    fig.text(
+        0.5,
+        0.94,
+        subtitle,
+        ha="center",
+        fontsize=8,
+    )
+
+    legend_elements = build_legend(categories, get_color)
+
+    fig.legend(
+        handles=legend_elements,
+        loc="upper center",
+        ncol=min(len(legend_elements), 6),
+        bbox_to_anchor=(0.5, 0.90),
+        frameon=False,
+    )
+
+    plt.tight_layout(rect=[0, 0, 1, 0.88])
+    plt.savefig(
+        results_dir / f"{method}_{dim}d_layers_combined.png",
+        dpi=200,
+    )
+    plt.close()

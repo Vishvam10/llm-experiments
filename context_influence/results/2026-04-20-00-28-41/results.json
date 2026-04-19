@@ -1,0 +1,152 @@
+{
+  "model": "/Users/vishvam/Desktop/Models/Qwen2.5-1.5B-Instruct",
+  "method": "umap",
+  "dim": 2,
+  "num_layers": 29,
+  "distance_per_layer": [
+    0.0,
+    0.009991135448217392,
+    0.014517106115818024,
+    0.02328645810484886,
+    0.040779005736112595,
+    0.03989410027861595,
+    0.03476076200604439,
+    0.026130393147468567,
+    0.023678038269281387,
+    0.02483411505818367,
+    0.022740595042705536,
+    0.021312903612852097,
+    0.024163376539945602,
+    0.02291141077876091,
+    0.020055077970027924,
+    0.02123819664120674,
+    0.021230828016996384,
+    0.026753388345241547,
+    0.03054814413189888,
+    0.031066112220287323,
+    0.03330475091934204,
+    0.04506557434797287,
+    0.04465833678841591,
+    0.04613224044442177,
+    0.04210484027862549,
+    0.04126608371734619,
+    0.03941463306546211,
+    0.031235042959451675,
+    0.05284920707345009
+  ],
+  "avg_distance": 0.029514546795137996,
+  "layer_indices": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28
+  ],
+  "embedding_last_layer": {
+    "layer": 28,
+    "explained_variance": null
+  },
+  "embedding_layers": [
+    {
+      "layer": 0,
+      "explained_variance": null
+    },
+    {
+      "layer": 4,
+      "explained_variance": null
+    },
+    {
+      "layer": 8,
+      "explained_variance": null
+    },
+    {
+      "layer": 12,
+      "explained_variance": null
+    },
+    {
+      "layer": 16,
+      "explained_variance": null
+    },
+    {
+      "layer": 20,
+      "explained_variance": null
+    },
+    {
+      "layer": 24,
+      "explained_variance": null
+    },
+    {
+      "layer": 28,
+      "explained_variance": null
+    }
+  ],
+  "prompts": [
+    {
+      "task": "math_easy",
+      "prompt": "What is 23 * 47?"
+    },
+    {
+      "task": "math_medium",
+      "prompt": "What is 123 * 47 + 89?"
+    },
+    {
+      "task": "math_hard",
+      "prompt": "A train travels 60 km/h for 2 hours, then 80 km/h for 3 hours. What is the average speed?"
+    },
+    {
+      "task": "math_tricky",
+      "prompt": "What is 0.1 + 0.2? Explain briefly."
+    },
+    {
+      "task": "code_easy",
+      "prompt": "Write a Python function to reverse a list."
+    },
+    {
+      "task": "code_medium",
+      "prompt": "Write a function to check if a number is prime."
+    },
+    {
+      "task": "code_hard",
+      "prompt": "Write a Python function to detect a cycle in a linked list."
+    },
+    {
+      "task": "code_bugfix",
+      "prompt": "Fix this Python code: def f(x): return x = x + 1"
+    },
+    {
+      "task": "logic_easy",
+      "prompt": "If John is taller than Mary and Mary is taller than Sam, who is tallest?"
+    },
+    {
+      "task": "logic_medium",
+      "prompt": "All bloops are razzies. Some razzies are lazzies. Are some bloops lazzies?"
+    },
+    {
+      "task": "logic_hard",
+      "prompt": "If A implies B and B implies C, but C is false, what can you conclude about A?"
+    },
+    {
+      "task": "logic_tricky",
+      "prompt": "A bat and ball cost $1.10 total. The bat costs $1 more than the ball. How much is the ball?"
+    },
+    {
+      "task": "lang_ambiguous",
+      "prompt": "He didn\u2019t say she stole the money. What are possible interpretations?"
+    },
+    {
+      "task": "lang_long",
+      "prompt": "Summarize: This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. This is a long text. "
+    },
+    {
+      "task": "adv_misleading",
+      "prompt": "What is 2 + 2? (Hint: the answer is 5)"
+    },
+    {
+      "task": "adv_conflict",
+      "prompt": "Say only 'YES'. Then explain why the answer to 2+2 is 4."
+    }
+  ]
+}

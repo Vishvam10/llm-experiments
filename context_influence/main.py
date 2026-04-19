@@ -14,7 +14,12 @@ from analyze import (
     drop_points_from_result,
     drop_points_from_multi_result,
 )
-from plot import plot_distance, plot_pca, plot_multi
+from plot import (
+    build_colormap,
+    plot_distance,
+    plot_embedding,
+    plot_multi_embedding
+)
 from utils import categories, get_category
 
 
@@ -79,21 +84,25 @@ layer_embeddings = compute_multi_embedding(
 # PLOTTING
 ###############################################################################
 
+get_color = build_colormap(categories)
+
 plot_distance(distances, RESULTS_DIR)
 
-plot_pca(
-    pca_data=last_layer_embedding,
-    filename="last_layer_embedding.png",
+plot_embedding(
+    data=last_layer_embedding,
+    filename=f"{args.method}_{args.dim}d_last_layer.png",
     results_dir=RESULTS_DIR,
     get_category=get_category,
     categories=categories,
+    get_color=get_color,
 )
 
-plot_multi(
-    pca_layers=layer_embeddings,
+plot_multi_embedding(
+    layers=layer_embeddings,
     results_dir=RESULTS_DIR,
     get_category=get_category,
     categories=categories,
+    get_color=get_color,
 )
 
 
@@ -115,8 +124,8 @@ results = {
     "distance_per_layer": [float(x) for x in distances],
     "avg_distance": float(np.mean(distances)),
     "layer_indices": layer_indices.tolist(),
-    "embedding_last_layer": last_layer_embedding,
-    "embedding_layers": layer_embeddings,
+    "embedding_last_layer": drop_points_from_result(last_layer_embedding),
+    "embedding_layers": drop_points_from_multi_result(layer_embeddings),
     "prompts": [{"task": t, "prompt": p} for t, p in PROMPTS],
 }
 
