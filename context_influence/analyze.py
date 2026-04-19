@@ -1,3 +1,4 @@
+import umap
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.metrics.pairwise import cosine_distances
@@ -14,53 +15,79 @@ def compute_distances(no_ctx, ctx):
     return distances
 
 
-def compute_pca(no_ctx, ctx, task_labels, layer_idx):
+def compute_embedding(no_ctx, ctx, task_labels, layer_idx, method="pca", dim=2):
     X = np.vstack([no_ctx[:, layer_idx, :], ctx[:, layer_idx, :]])
 
-    # no_ctx and ctx have shape : (num_tasks, num_layers, hidden_dimension)
     labels_ctx = ["no_ctx"] * len(no_ctx) + ["ctx"] * len(ctx)
-
-    # As both the task (with or without context) are the same like math_easy, 
-    # code_bugfix, etc
     labels_task = task_labels + task_labels
 
-    pca = PCA(n_components=2)
-    X2 = pca.fit_transform(X)
+    if method == "pca":
+        model = PCA(n_components=dim)
+        X_emb = model.fit_transform(X)
+        extra = {"explained_variance": model.explained_variance_ratio_.tolist()}
+
+    elif method == "umap":
+        model = umap.UMAP(
+            n_components=dim,
+            n_neighbors=15,
+            min_dist=0.1,
+            metric="cosine",
+            random_state=42,
+        )
+        X_emb = model.fit_transform(X)
+        extra = {}
+
+    else:
+        raise ValueError("method must be 'pca' or 'umap'")
 
     points = []
-    for i in range(len(X2)):
-        points.append(
-            {
-                "x": float(X2[i, 0]),
-                "y": float(X2[i, 1]),
-                "context": labels_ctx[i],
-                "task": labels_task[i],
-                "index": int(i % len(task_labels)),
-            }
-        )
+    for i in range(len(X_emb)):
+        p = {
+            "context": labels_ctx[i],
+            "task": labels_task[i],
+            "index": int(i % len(task_labels)),
+        }
+
+        if dim == 2:
+            p["x"], p["y"] = float(X_emb[i, 0]), float(X_emb[i, 1])
+        elif dim == 3:
+            p["x"], p["y"], p["z"] = map(float, X_emb[i])
+
+        points.append(p)
 
     return {
         "layer": int(layer_idx),
-        "explained_variance": pca.explained_variance_ratio_.tolist(),
+        "method": method,
+        "dim": dim,
         "points": points,
+        **extra,
     }
 
 
-def compute_multi_pca(no_ctx, ctx, task_labels, layer_indices):
+def compute_multi_embedding(
+    no_ctx, ctx, task_labels, layer_indices, method="pca", dim=2
+):
     return [
-        compute_pca(no_ctx, ctx, task_labels, layer_idx)
+        compute_embedding(
+            no_ctx,
+            ctx,
+            task_labels,
+            layer_idx,
+            method=method,
+            dim=dim,
+        )
         for layer_idx in layer_indices
     ]
 
 
-def drop_points_from_pca(pca):
+def drop_points_from_result(pca):
     return {
         "layer": pca["layer"],
         "explained_variance": pca.get("explained_variance"),
     }
 
 
-def drop_points_from_multi(pca_layers):
+def drop_points_from_multi_result(pca_layers):
     return [
         {
             "layer": layer["layer"],
@@ -68,4 +95,3 @@ def drop_points_from_multi(pca_layers):
         }
         for layer in pca_layers
     ]
-

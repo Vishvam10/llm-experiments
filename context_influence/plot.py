@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import catppuccin
 from matplotlib.lines import Line2D
+
 from catppuccin.extras.matplotlib import get_colormap_from_list
 
 mpl.style.use(catppuccin.PALETTE.macchiato.identifier)
@@ -53,71 +54,74 @@ def plot_distance(distances, results_dir):
     plt.savefig(results_dir / "distance.png", dpi=200)
 
 
-def plot_pca(pca_data, filename, results_dir, get_category, categories):
-    get_color = build_colormap(categories)
-
+def plot_embedding_2d(
+    data, filename, results_dir, get_category, categories, get_color
+):
     plt.figure(figsize=(10, 8))
 
-    for p in pca_data["points"]:
+    for p in data["points"]:
         marker = "o" if p["context"] == "no_ctx" else "x"
         color = get_color(get_category(p["task"]))
 
-        x, y = p["x"], p["y"]
-        plt.scatter(x, y, marker=marker, color=color)
+        plt.scatter(p["x"], p["y"], marker=marker, color=color)
 
         jitter = np.random.randint(2, 6)
         plt.annotate(
             str(p["index"]),
-            (x, y),
+            (p["x"], p["y"]),
             textcoords="offset points",
             xytext=(jitter, jitter),
             fontsize=8,
         )
 
-    plt.legend(handles=build_legend(categories, get_color))
-    plt.title(f"PCA Layer {pca_data['layer']}")
+    title = f"{data['method'].upper()}-2D Layer {data['layer']}"
+    plt.title(title)
     plt.tight_layout()
     plt.savefig(results_dir / filename, dpi=200)
+    plt.close()
 
 
-def plot_multi(pca_layers, results_dir, get_category, categories):
-    get_color = build_colormap(categories)
+def plot_embedding_3d(
+    data, filename, results_dir, get_category, categories, get_color
+):
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection="3d")
 
-    cols = 4
-    rows = int(np.ceil(len(pca_layers) / cols))
+    for p in data["points"]:
+        marker = "o" if p["context"] == "no_ctx" else "x"
+        color = get_color(get_category(p["task"]))
 
-    fig, axes = plt.subplots(rows, cols, figsize=(16, 10))
-    axes = axes.flatten()
+        ax.scatter(p["x"], p["y"], p["z"], marker=marker, color=color)
 
-    for idx, layer_data in enumerate(pca_layers):
-        ax = axes[idx]
+    ax.set_title(f"{data['method'].upper()}-3D Layer {data['layer']}")
 
-        for p in layer_data["points"]:
-            marker = "o" if p["context"] == "no_ctx" else "x"
-            color = get_color(get_category(p["task"]))
+    plt.tight_layout()
+    plt.savefig(results_dir / filename, dpi=200)
+    plt.close()
 
-            ax.scatter(p["x"], p["y"], marker=marker, color=color)
 
-            jitter = np.random.randint(2, 5)
-            ax.annotate(
-                str(p["index"]),
-                (p["x"], p["y"]),
-                textcoords="offset points",
-                xytext=(jitter, jitter),
-                fontsize=6,
-            )
+def plot_embedding(
+    data, filename, results_dir, get_category, categories, get_color
+):
+    if data["dim"] == 2:
+        plot_embedding_2d(
+            data, filename, results_dir, get_category, categories, get_color
+        )
+    else:
+        plot_embedding_3d(
+            data, filename, results_dir, get_category, categories, get_color
+        )
 
-        ax.set_title(f"Layer {layer_data['layer']}")
 
-    for j in range(idx + 1, len(axes)):
-        fig.delaxes(axes[j])
-
-    fig.legend(
-        handles=build_legend(categories, get_color),
-        loc="upper center",
-        ncol=6,
-        bbox_to_anchor=(0.5, 0.95),
-    )
-
-    plt.tight_layout(rect=[0, 0, 1, 0.92])
-    plt.savefig(results_dir / "pca_layers.png", dpi=200)
+def plot_multi_embedding(
+    layers, results_dir, get_category, categories, get_color
+):
+    for layer in layers:
+        plot_embedding(
+            layer,
+            filename=f"{layer['method']}_{layer['dim']}d_layer_{layer['layer']}.png",
+            results_dir=results_dir,
+            get_category=get_category,
+            categories=categories,
+            get_color=get_color,
+        )

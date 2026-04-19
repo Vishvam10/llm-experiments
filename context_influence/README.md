@@ -20,12 +20,11 @@ hf download Qwen/Qwen2.5-1.5B-Instruct \
 ### Run experiment
 
 ```bash
-python script.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct
+# Using PCA
+python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method pca --dim 2
+python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method pca --dim 3
+
+# Using UMAP
+python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method umap --dim 2
+python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method umap --dim 3
 ```
-
-### Outputs
-
-distance.png — context influence across layers
-pca_last_layer.png — representation shift (final layer)
-pca_layers.png — PCA across layers
-results.json — raw data (distances + PCA points)

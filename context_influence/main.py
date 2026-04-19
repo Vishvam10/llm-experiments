@@ -9,10 +9,10 @@ from model_utils import load_model, get_hidden_states
 from data import PROMPTS, get_context
 from analyze import (
     compute_distances,
-    compute_pca,
-    compute_multi_pca,
-    drop_points_from_pca,
-    drop_points_from_multi,
+    compute_embedding,
+    compute_multi_embedding,
+    drop_points_from_result,
+    drop_points_from_multi_result,
 )
 from plot import plot_distance, plot_pca, plot_multi
 from utils import categories, get_category
@@ -25,6 +25,10 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=str, required=True)
 parser.add_argument("--num-pca-layers", type=int, default=8)
+parser.add_argument(
+    "--method", type=str, default="umap", choices=["pca", "umap"]
+)
+parser.add_argument("--dim", type=int, default=2, choices=[2, 3])
 args = parser.parse_args()
 
 
@@ -53,18 +57,22 @@ distances = compute_distances(no_ctx, ctx)
 
 layer_indices = np.linspace(0, num_layers - 1, args.num_pca_layers, dtype=int)
 
-pca_last = compute_pca(
+last_layer_embedding = compute_embedding(
     no_ctx,
     ctx,
     task_labels,
     layer_idx=num_layers - 1,
+    method=args.method,
+    dim=args.dim,
 )
 
-pca_layers = compute_multi_pca(
+layer_embeddings = compute_multi_embedding(
     no_ctx,
     ctx,
     task_labels,
     layer_indices=layer_indices,
+    method=args.method,
+    dim=args.dim,
 )
 
 ###############################################################################
@@ -74,15 +82,15 @@ pca_layers = compute_multi_pca(
 plot_distance(distances, RESULTS_DIR)
 
 plot_pca(
-    pca_data=pca_last,
-    filename="pca_last_layer.png",
+    pca_data=last_layer_embedding,
+    filename="last_layer_embedding.png",
     results_dir=RESULTS_DIR,
     get_category=get_category,
     categories=categories,
 )
 
 plot_multi(
-    pca_layers=pca_layers,
+    pca_layers=layer_embeddings,
     results_dir=RESULTS_DIR,
     get_category=get_category,
     categories=categories,
@@ -101,12 +109,14 @@ def to_serializable(obj):
 
 results = {
     "model": args.model,
+    "method": args.method,
+    "dim": args.dim,
     "num_layers": int(num_layers),
     "distance_per_layer": [float(x) for x in distances],
     "avg_distance": float(np.mean(distances)),
     "layer_indices": layer_indices.tolist(),
-    "pca_last_layer": drop_points_from_pca(pca_last),
-    "pca_layers": drop_points_from_multi(pca_layers),
+    "embedding_last_layer": last_layer_embedding,
+    "embedding_layers": layer_embeddings,
     "prompts": [{"task": t, "prompt": p} for t, p in PROMPTS],
 }
 
