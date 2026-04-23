@@ -10,7 +10,6 @@ from data import PROMPTS, get_context
 from analyze import (
     compute_distances,
     compute_multi_embedding,
-    drop_points_from_result,
     drop_points_from_multi_result,
 )
 from plot import (
