@@ -1,10 +1,9 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import catppuccin
-from matplotlib.lines import Line2D
-
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 from catppuccin.extras.matplotlib import get_colormap_from_list
+from matplotlib.lines import Line2D
 
 mpl.style.use(catppuccin.PALETTE.macchiato.identifier)
 
@@ -44,14 +43,17 @@ def build_legend(categories, get_color):
     return elements
 
 
-def plot_distance(distances, results_dir):
+def plot_distance(distances, method, dim, results_dir):
     plt.figure()
     plt.plot(range(len(distances)), distances, marker="o")
     plt.title("Context Influence Across Layers")
     plt.xlabel("Layer")
     plt.ylabel("Cosine Distance")
     plt.tight_layout()
-    plt.savefig(results_dir / "distance.png", dpi=200)
+    plt.savefig(
+        results_dir / f"{method}_{dim}d_layers_combined.png",
+        dpi=200,
+    )
 
 
 def plot_embedding_2d(
@@ -185,7 +187,6 @@ def plot_multi_embedding(
 
     for j in range(len(axes), rows * cols):
         fig.delaxes(fig.add_subplot(rows, cols, j + 1))
-
 
     fig.suptitle(
         f"{method.upper()}-{dim}D Across Layers",

@@ -1,7 +1,8 @@
 import json
-import matplotlib.pyplot as plt
-import matplotlib as mpl
+
 import catppuccin
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 from catppuccin.extras.matplotlib import get_colormap_from_list
 
 # ------------------------------------------------------------------------------
@@ -10,8 +11,7 @@ from catppuccin.extras.matplotlib import get_colormap_from_list
 mpl.style.use(catppuccin.PALETTE.macchiato.identifier)
 
 cmap = get_colormap_from_list(
-    catppuccin.PALETTE.macchiato.identifier,
-    ["blue", "mauve", "green"]
+    catppuccin.PALETTE.macchiato.identifier, ["blue", "mauve", "green"]
 )
 
 # ------------------------------------------------------------------------------
@@ -29,9 +29,7 @@ scores = [data[m] for m in modes]
 plt.figure(figsize=(7, 4))
 
 bars = plt.bar(
-    modes,
-    scores,
-    color=[cmap(i / len(modes)) for i in range(len(modes))]
+    modes, scores, color=[cmap(i / len(modes)) for i in range(len(modes))]
 )
 
 plt.ylabel("Accuracy")
@@ -46,7 +44,7 @@ for bar, val in zip(bars, scores):
         val + 0.01,
         f"{val:.3f}",
         ha="center",
-        fontsize=10
+        fontsize=10,
     )
 
 plt.grid(axis="y", linestyle="--", alpha=0.3)

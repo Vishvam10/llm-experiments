@@ -43,6 +43,7 @@ PROMPTS = [
     ),
 ]
 
+
 def get_context(task):
     if task.startswith("math"):
         return dedent("""\

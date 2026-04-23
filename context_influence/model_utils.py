@@ -1,6 +1,6 @@
-import torch
 import numpy as np
-from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 def load_model(model_name):

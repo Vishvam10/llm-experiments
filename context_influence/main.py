@@ -1,23 +1,19 @@
-import json
 import argparse
-import numpy as np
-
+import json
 from datetime import datetime
 from pathlib import Path
 
-from model_utils import load_model, get_hidden_states
-from data import PROMPTS, get_context
+import numpy as np
 from analyze import (
     compute_distances,
     compute_multi_embedding,
     drop_points_from_multi_result,
 )
-from plot import (
-    build_colormap,
-    plot_distance,
-    plot_multi_embedding
-)
+from data import PROMPTS, get_context
+from model_utils import get_hidden_states, load_model
+from plot import build_colormap, plot_distance, plot_multi_embedding
 from utils import categories, get_category
+
 
 def get_model_name(model_path: str) -> str:
     name = Path(model_path).name
@@ -79,7 +75,7 @@ layer_embeddings = compute_multi_embedding(
 
 get_color = build_colormap(categories)
 
-plot_distance(distances, RESULTS_DIR)
+plot_distance(distances, args.method, args.dim, RESULTS_DIR)
 
 plot_multi_embedding(
     layers=layer_embeddings,

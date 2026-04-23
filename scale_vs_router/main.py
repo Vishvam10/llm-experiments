@@ -1,8 +1,9 @@
 import argparse
 import json
+from collections import Counter
+
 import requests
 from datasets import load_dataset
-from collections import Counter
 
 # ------------------------------------------------------------------------------
 # ARGS
@@ -101,7 +102,7 @@ def eval_code(out, test):
         exec(out, env)
         exec(test, env)
         return True
-    except Exception :
+    except Exception:
         return False
 
 
@@ -132,9 +133,11 @@ def run_routed():
     for s in dataset:
         expert = route(s["prompt"])
 
-        url = {"code": args.code_url, "math": args.math_url, "logic": args.logic_url}[
-            expert
-        ]
+        url = {
+            "code": args.code_url,
+            "math": args.math_url,
+            "logic": args.logic_url,
+        }[expert]
 
         out = call(url, s["prompt"])
 
@@ -197,7 +200,7 @@ print(f"Accuracy: {acc:.4f}")
 try:
     with open("results.json", "r") as f:
         data = json.load(f)
-except Exception :
+except Exception:
     data = {}
 
 data[args.mode] = acc

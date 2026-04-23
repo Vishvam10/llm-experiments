@@ -1,5 +1,5 @@
-import umap
 import numpy as np
+import umap
 from sklearn.decomposition import PCA
 from sklearn.metrics.pairwise import cosine_distances
 
