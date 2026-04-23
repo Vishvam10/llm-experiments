@@ -135,18 +135,6 @@ def plot_embedding_3d(
     plt.savefig(results_dir / filename, dpi=200)
     plt.close()
 
-def plot_embedding(
-    data, filename, results_dir, get_category, categories, get_color
-):
-    if data["dim"] == 2:
-        plot_embedding_2d(
-            data, filename, results_dir, get_category, categories, get_color
-        )
-    else:
-        plot_embedding_3d(
-            data, filename, results_dir, get_category, categories, get_color
-        )
-
 
 def plot_multi_embedding(
     layers, results_dir, get_category, categories, get_color

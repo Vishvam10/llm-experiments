@@ -9,7 +9,6 @@ from model_utils import load_model, get_hidden_states
 from data import PROMPTS, get_context
 from analyze import (
     compute_distances,
-    compute_embedding,
     compute_multi_embedding,
     drop_points_from_result,
     drop_points_from_multi_result,
@@ -17,15 +16,14 @@ from analyze import (
 from plot import (
     build_colormap,
     plot_distance,
-    plot_embedding,
     plot_multi_embedding
 )
 from utils import categories, get_category
 
+def get_model_name(model_path: str) -> str:
+    name = Path(model_path).name
+    return name if name else model_path.split("/")[-1]
 
-timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-RESULTS_DIR = Path("results") / timestamp
-RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=str, required=True)
@@ -36,6 +34,11 @@ parser.add_argument(
 parser.add_argument("--dim", type=int, default=2, choices=[2, 3])
 args = parser.parse_args()
 
+timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
+model_name = get_model_name(args.model).lower()
+
+RESULTS_DIR = Path("results") / model_name / timestamp
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 model, tokenizer, device = load_model(args.model)
 
@@ -62,15 +65,6 @@ distances = compute_distances(no_ctx, ctx)
 
 layer_indices = np.linspace(0, num_layers - 1, args.num_pca_layers, dtype=int)
 
-last_layer_embedding = compute_embedding(
-    no_ctx,
-    ctx,
-    task_labels,
-    layer_idx=num_layers - 1,
-    method=args.method,
-    dim=args.dim,
-)
-
 layer_embeddings = compute_multi_embedding(
     no_ctx,
     ctx,
@@ -87,15 +81,6 @@ layer_embeddings = compute_multi_embedding(
 get_color = build_colormap(categories)
 
 plot_distance(distances, RESULTS_DIR)
-
-plot_embedding(
-    data=last_layer_embedding,
-    filename=f"{args.method}_{args.dim}d_last_layer.png",
-    results_dir=RESULTS_DIR,
-    get_category=get_category,
-    categories=categories,
-    get_color=get_color,
-)
 
 plot_multi_embedding(
     layers=layer_embeddings,
@@ -124,7 +109,6 @@ results = {
     "distance_per_layer": [float(x) for x in distances],
     "avg_distance": float(np.mean(distances)),
     "layer_indices": layer_indices.tolist(),
-    "embedding_last_layer": drop_points_from_result(last_layer_embedding),
     "embedding_layers": drop_points_from_multi_result(layer_embeddings),
     "prompts": [{"task": t, "prompt": p} for t, p in PROMPTS],
 }
