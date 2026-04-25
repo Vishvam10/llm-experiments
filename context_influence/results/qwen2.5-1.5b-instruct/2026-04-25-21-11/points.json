@@ -1,0 +1,815 @@
+{
+  "model": "qwen2.5-1.5b-instruct",
+  "method": "umap",
+  "dim": 3,
+  "distance_per_layer": [
+    0.0,
+    0.02008979395031929,
+    0.029219698160886765,
+    0.040941428393125534,
+    0.05534372478723526,
+    0.05542244762182236,
+    0.048605214804410934,
+    0.03947329521179199,
+    0.03590361028909683,
+    0.03656120225787163,
+    0.03454024717211723,
+    0.03293972089886665,
+    0.03869844600558281,
+    0.03553549200296402,
+    0.031471382826566696,
+    0.033073462545871735,
+    0.033547721803188324,
+    0.04295649379491806,
+    0.050296880304813385,
+    0.053035832941532135,
+    0.055385757237672806,
+    0.08085434138774872,
+    0.07745403051376343,
+    0.0778651237487793,
+    0.06925494968891144,
+    0.06554079055786133,
+    0.0665687546133995,
+    0.05312960222363472,
+    0.09309985488653183
+  ],
+  "avg_distance": 0.04782101036659602,
+  "layers": [
+    {
+      "layer": 0,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 14.163468360900879,
+          "y": 19.759632110595703,
+          "z": -4.271792888641357
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 14.16077709197998,
+          "y": 21.01317024230957,
+          "z": -3.6765737533569336
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 13.75666618347168,
+          "y": 20.198902130126953,
+          "z": -5.029303550720215
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 14.56299114227295,
+          "y": 20.54003143310547,
+          "z": -4.564166069030762
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 13.389833450317383,
+          "y": 20.550899505615234,
+          "z": -3.580812692642212
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 13.326730728149414,
+          "y": 20.992149353027344,
+          "z": -4.500692367553711
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 13.143450736999512,
+          "y": 19.97105598449707,
+          "z": -4.294033050537109
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 14.587379455566406,
+          "y": 20.156415939331055,
+          "z": -3.505087375640869
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 13.720952033996582,
+          "y": 19.561609268188477,
+          "z": -3.5649430751800537
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 14.167967796325684,
+          "y": 21.38833999633789,
+          "z": -4.534008502960205
+        }
+      ]
+    },
+    {
+      "layer": 4,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 15.891633987426758,
+          "y": 22.314897537231445,
+          "z": 8.791975021362305
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 15.700390815734863,
+          "y": 21.884157180786133,
+          "z": 8.147570610046387
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 14.623234748840332,
+          "y": 21.351146697998047,
+          "z": 7.967700958251953
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 14.947131156921387,
+          "y": 20.814477920532227,
+          "z": 8.67396068572998
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 15.10369873046875,
+          "y": 22.4363956451416,
+          "z": 9.568678855895996
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 15.593862533569336,
+          "y": 21.506868362426758,
+          "z": 9.011160850524902
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 14.991630554199219,
+          "y": 22.353439331054688,
+          "z": 8.353663444519043
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 14.165780067443848,
+          "y": 21.53859519958496,
+          "z": 8.671379089355469
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 14.513839721679688,
+          "y": 21.1928768157959,
+          "z": 9.339630126953125
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 14.455442428588867,
+          "y": 22.47499656677246,
+          "z": 9.585728645324707
+        }
+      ]
+    },
+    {
+      "layer": 8,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 8.986245155334473,
+          "y": 5.4359612464904785,
+          "z": 7.14412784576416
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 8.40556812286377,
+          "y": 5.040120601654053,
+          "z": 7.218530178070068
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 8.205403327941895,
+          "y": 6.536121368408203,
+          "z": 7.668834686279297
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 7.474855422973633,
+          "y": 6.3797221183776855,
+          "z": 7.284531593322754
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 7.370567798614502,
+          "y": 5.27394437789917,
+          "z": 6.699422359466553
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 8.549914360046387,
+          "y": 5.83754825592041,
+          "z": 6.661297798156738
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 8.396695137023926,
+          "y": 5.555351734161377,
+          "z": 7.812796592712402
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 8.073579788208008,
+          "y": 7.238106727600098,
+          "z": 7.541296482086182
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 8.002601623535156,
+          "y": 6.871685028076172,
+          "z": 6.743116855621338
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 7.402827739715576,
+          "y": 5.449656963348389,
+          "z": 6.143794536590576
+        }
+      ]
+    },
+    {
+      "layer": 12,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": -1.8932403326034546,
+          "y": 1.955382227897644,
+          "z": 12.0324125289917
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": -2.3105552196502686,
+          "y": 2.89754319190979,
+          "z": 12.240723609924316
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": -1.771653652191162,
+          "y": 2.811797857284546,
+          "z": 11.176887512207031
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": -0.9443781971931458,
+          "y": 2.3477141857147217,
+          "z": 11.586275100708008
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": -1.467335820198059,
+          "y": 3.279431104660034,
+          "z": 12.709882736206055
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": -1.9755582809448242,
+          "y": 2.105225086212158,
+          "z": 12.760625839233398
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": -2.7539119720458984,
+          "y": 2.3743367195129395,
+          "z": 12.079781532287598
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": -1.3274571895599365,
+          "y": 3.3657283782958984,
+          "z": 11.39958667755127
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": -0.7168425917625427,
+          "y": 2.4110541343688965,
+          "z": 12.269230842590332
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": -0.8582580089569092,
+          "y": 3.387709379196167,
+          "z": 12.489398956298828
+        }
+      ]
+    },
+    {
+      "layer": 16,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 8.596081733703613,
+          "y": 1.5411146879196167,
+          "z": 5.02177619934082
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 9.000581741333008,
+          "y": 0.8345900177955627,
+          "z": 5.269268035888672
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 9.910209655761719,
+          "y": 2.3236565589904785,
+          "z": 5.1223883628845215
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 9.493863105773926,
+          "y": 1.8365349769592285,
+          "z": 5.711524963378906
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 9.900742530822754,
+          "y": 1.0218663215637207,
+          "z": 4.330250263214111
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 8.714868545532227,
+          "y": 1.665073275566101,
+          "z": 4.302005290985107
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 8.640976905822754,
+          "y": 0.7486972808837891,
+          "z": 4.4964213371276855
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 10.41366195678711,
+          "y": 1.9632986783981323,
+          "z": 5.109408378601074
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 10.10460376739502,
+          "y": 1.2369749546051025,
+          "z": 5.660367012023926
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 9.796111106872559,
+          "y": 1.5808621644973755,
+          "z": 3.9332854747772217
+        }
+      ]
+    },
+    {
+      "layer": 20,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 7.817262649536133,
+          "y": 0.1739470660686493,
+          "z": 0.661843478679657
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 8.41375732421875,
+          "y": 0.7737064361572266,
+          "z": 0.9842696189880371
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 8.962977409362793,
+          "y": -0.05036322399973869,
+          "z": -0.1221921443939209
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 8.507858276367188,
+          "y": -0.7106266021728516,
+          "z": 0.41162899136543274
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 9.343097686767578,
+          "y": 0.9397713541984558,
+          "z": 0.4687942564487457
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 8.38770866394043,
+          "y": 0.005622600205242634,
+          "z": 1.2587698698043823
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 8.093035697937012,
+          "y": 0.6630159616470337,
+          "z": 0.08333471417427063
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 9.620550155639648,
+          "y": -0.27491849660873413,
+          "z": 0.2934744358062744
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 9.204631805419922,
+          "y": -0.7942982316017151,
+          "z": 0.8748483061790466
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 9.061978340148926,
+          "y": 1.356388807296753,
+          "z": 0.1012292429804802
+        }
+      ]
+    },
+    {
+      "layer": 24,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 13.601007461547852,
+          "y": 6.627992630004883,
+          "z": 15.431713104248047
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 14.34467601776123,
+          "y": 6.878229141235352,
+          "z": 14.944262504577637
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 14.980911254882812,
+          "y": 5.993725299835205,
+          "z": 15.334593772888184
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 15.04887866973877,
+          "y": 6.89306116104126,
+          "z": 15.74758243560791
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 13.913152694702148,
+          "y": 5.72086238861084,
+          "z": 14.807703018188477
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 13.914616584777832,
+          "y": 6.309002876281738,
+          "z": 16.152793884277344
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 14.152512550354004,
+          "y": 7.2020673751831055,
+          "z": 15.96084213256836
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 15.12966537475586,
+          "y": 5.586430549621582,
+          "z": 15.892057418823242
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 14.922865867614746,
+          "y": 6.282315254211426,
+          "z": 16.371824264526367
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 14.113996505737305,
+          "y": 5.131734848022461,
+          "z": 15.199723243713379
+        }
+      ]
+    },
+    {
+      "layer": 28,
+      "method": "umap",
+      "dim": 3,
+      "points": [
+        {
+          "context": "no_ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 15.972552299499512,
+          "y": 5.525278568267822,
+          "z": 5.189113140106201
+        },
+        {
+          "context": "no_ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 15.792794227600098,
+          "y": 5.340352535247803,
+          "z": 4.484911918640137
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 16.067636489868164,
+          "y": 4.336187362670898,
+          "z": 4.6006760597229
+        },
+        {
+          "context": "no_ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 16.70488929748535,
+          "y": 5.209392070770264,
+          "z": 4.2111592292785645
+        },
+        {
+          "context": "no_ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 16.933177947998047,
+          "y": 4.480693817138672,
+          "z": 3.8234407901763916
+        },
+        {
+          "context": "ctx",
+          "task": "math_easy",
+          "index": 0,
+          "correct": false,
+          "x": 16.872251510620117,
+          "y": 5.535065174102783,
+          "z": 5.374454021453857
+        },
+        {
+          "context": "ctx",
+          "task": "math_tricky",
+          "index": 1,
+          "correct": false,
+          "x": 16.560672760009766,
+          "y": 6.126093864440918,
+          "z": 4.75042724609375
+        },
+        {
+          "context": "ctx",
+          "task": "logic_easy",
+          "index": 2,
+          "correct": true,
+          "x": 16.7750244140625,
+          "y": 3.9557831287384033,
+          "z": 4.926105499267578
+        },
+        {
+          "context": "ctx",
+          "task": "logic_tricky",
+          "index": 3,
+          "correct": false,
+          "x": 17.29879379272461,
+          "y": 4.7417802810668945,
+          "z": 4.867720603942871
+        },
+        {
+          "context": "ctx",
+          "task": "adv_misleading",
+          "index": 4,
+          "correct": false,
+          "x": 17.569549560546875,
+          "y": 4.158442497253418,
+          "z": 4.2870612144470215
+        }
+      ]
+    }
+  ]
+}

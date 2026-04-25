@@ -1,0 +1,96 @@
+{
+  "model": "qwen2.5-1.5b-instruct",
+  "method": "umap",
+  "dim": 3,
+  "num_layers": 29,
+  "layer_indices": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28
+  ],
+  "embedding_layers": [
+    {
+      "layer": 0,
+      "explained_variance": null
+    },
+    {
+      "layer": 4,
+      "explained_variance": null
+    },
+    {
+      "layer": 8,
+      "explained_variance": null
+    },
+    {
+      "layer": 12,
+      "explained_variance": null
+    },
+    {
+      "layer": 16,
+      "explained_variance": null
+    },
+    {
+      "layer": 20,
+      "explained_variance": null
+    },
+    {
+      "layer": 24,
+      "explained_variance": null
+    },
+    {
+      "layer": 28,
+      "explained_variance": null
+    }
+  ],
+  "accuracy": {
+    "no_context": 0.2,
+    "with_context": 0.2
+  },
+  "samples": [
+    {
+      "task": "math_easy",
+      "prompt": "What is 23 * 47?",
+      "no_ctx_output": "- Answers\\nMath and Arithmetic\\nWhat is 23 * 47?\\nWiki User\\n\u2219 2016-09-28 15:47:47\\nStudy now\\nBest Answer\\nCopy\\n23*47=1,081\\nWiki User\\n\u2219 2016-09-28 15:47:47\\nThis answer is:\\n\ud83d\ude4f\\n0\\n\ud83e\udd28\\n0\\n\ud83d\ude2e\\n0\\nAlgebra\\n20 cards\\nA polynomial of degree zero is a constant term\\nThe grouping method",
+      "ctx_output": "Let's solve this problem step by step:\n\nStep 1: Multiply the ones digit of each number\n23 * 7 = 161\n\nStep 2: Multiply the tens digit of both numbers and add a zero at the end\n(20 * 4) + (2 * 4) = 80 + 8 = 88\n\nStep 3: Add the results from steps 1 and 2\n161 + 88 = 249\n\nTherefore, 23 * 47 = 1081. \n\nFinal answer: 10",
+      "no_ctx_correct": false,
+      "ctx_correct": false
+    },
+    {
+      "task": "math_tricky",
+      "prompt": "What is 0.1 + 0.2?",
+      "no_ctx_output": "To find the sum of 0.1 and 0.2, we can follow these steps:\n\n1. Align the decimal points:\n   ```\n     0.1\n    +0.2\n   ```\n\n2. Add the numbers column by column from right to left:\n   - In the hundredths place: \\(1 + 2 = 3\\)\n   - In the tenths place: \\(0 + 0 = 0\\)\n\nSo, when we add 0.1 and 0.2, we get:\n```\n  0.3\n```\n\nTherefore, the answer is \\",
+      "ctx_output": "To solve this problem, we need to add two decimal numbers: 0.1 and 0.2. Let's break it down into steps:\n\nStep 1: Align the decimal points\n```\n  0.1\n+ 0.2\n------\n```\n\nStep 2: Add the digits in each column from right to left:\n- In the tenths place (the first digit on the right), we have 1 + 2 = 3.\n- There are no digits in the units place that need to be added together because there are no whole number parts in either of our numbers.\n\nStep 3",
+      "no_ctx_correct": false,
+      "ctx_correct": false
+    },
+    {
+      "task": "logic_easy",
+      "prompt": "If John is taller than Mary and Mary is taller than Sam, who is tallest?",
+      "no_ctx_output": "To determine who is the tallest among John, Mary, and Sam, we need to analyze the given information step by step.\n\n1. We know that John is taller than Mary.\n2. We also know that Mary is taller than Sam.\n\nFrom these two pieces of information, we can deduce the following order:\n- John > Mary\n- Mary > Sam\n\nCombining these two inequalities, we get:\nJohn > Mary > Sam\n\nTherefore, Sam is the tallest among the three individuals. The final answer is:\n\n\\boxed{Sam}",
+      "ctx_output": "To determine who is the tallest among John, Mary, and Sam, we need to analyze the given information step by step:\n\n1. **John is taller than Mary**: This means \\( J > M \\).\n2. **Mary is taller than Sam**: This means \\( M > S \\).\n\nNow, let's combine these two pieces of information:\n- From \\( J > M \\), we know that John is taller than Mary.\n- From \\( M > S \\), we know that Mary is taller than Sam.\n\nCombining both inequalities, we get:\n\\[ J > M > S \\]\n\nThis tells us that John is taller than",
+      "no_ctx_correct": true,
+      "ctx_correct": true
+    },
+    {
+      "task": "logic_tricky",
+      "prompt": "A bat and ball cost $1.10 total. The bat costs $1 more than the ball. How much is the ball?",
+      "no_ctx_output": "Let's denote the cost of the ball as \\( x \\) dollars. According to the problem, the bat costs $1 more than the ball, so the cost of the bat is \\( x + 1 \\) dollars.\n\nThe total cost of the bat and the ball is given as $1.10. Therefore, we can write the equation:\n\\[ x + (x + 1) = 1.10 \\]\n\nSimplifying the left side of the equation, we get:\n\\[ 2x + 1 = 1.10 \\]\n\nNext, we need to isolate \\( x \\). We",
+      "ctx_output": "Let's break down the problem step by step:\n\n1. **Identify the variables:**\n   - Let \\( B \\) represent the cost of the ball in dollars.\n   - Then, the cost of the bat would be \\( B + 1 \\) dollars (since it costs $1 more than the ball).\n\n2. **Set up the equation based on the total cost:**\n   - According to the problem, the sum of the cost of the bat and the ball is $1.10:\n     \\[\n     B + (B + 1) = 1.10\n     \\]\n\n3.",
+      "no_ctx_correct": false,
+      "ctx_correct": false
+    },
+    {
+      "task": "adv_misleading",
+      "prompt": "What is 2 + 2? (Hint: the answer is 5)",
+      "no_ctx_output": "The sum of two plus two is indeed five. However, it's important to note that this might be a play on words or a misunderstanding in your question. If you meant \"two and two,\" then the correct answer would be four.\n\nIf you're looking for a mathematical operation where the result is always five regardless of the numbers involved, there isn't one because addition doesn't inherently produce a constant value like five. Addition typically results in sums that vary depending on the values added together. \n\nSo, if you have any other questions about math or anything else, feel free to ask!",
+      "ctx_output": "To solve this, let's first understand what the hint means. The hint \"the answer is 5\" suggests that there might be a misunderstanding or misinterpretation of the question. \n\nGiven the problem statement asks for the sum of two numbers, which are typically represented as integers in mathematics:\n\n1. We need to add two integers together.\n2. The result should logically follow from basic arithmetic principles.\n\nLet's break it down step by step:\n- Addition involves combining quantities.\n- For any pair of positive integers, their sum will always be greater than either individual number.\n\nIn this case, we have:\n\\[ 2 + 2",
+      "no_ctx_correct": false,
+      "ctx_correct": false
+    }
+  ]
+}

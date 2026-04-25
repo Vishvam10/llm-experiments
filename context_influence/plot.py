@@ -1,3 +1,7 @@
+import argparse
+import json
+from pathlib import Path
+
 import catppuccin
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -17,12 +21,27 @@ def build_colormap(categories):
     cat_to_idx = {c: i for i, c in enumerate(categories)}
 
     def get_color(cat):
-        return cmap(cat_to_idx[cat] / (len(categories) - 1))
+        return cmap(cat_to_idx[cat] / max(len(categories) - 1, 1))
 
     return get_color
 
 
-def build_legend(categories, get_color):
+def get_category(task):
+    if task.startswith("math"):
+        return "math"
+    if task.startswith("code"):
+        return "code"
+    if task.startswith("logic"):
+        return "logic"
+    if task.startswith("lang"):
+        return "language"
+    return "adversarial"
+
+
+categories = ["math", "code", "logic", "language", "adversarial"]
+
+
+def build_legend(get_color):
     elements = [
         Line2D([0], [0], marker="o", linestyle="None", label="No Context"),
         Line2D([0], [0], marker="x", linestyle="None", label="With Context"),
@@ -43,104 +62,33 @@ def build_legend(categories, get_color):
     return elements
 
 
-def plot_distance(distances, method, dim, results_dir):
-    plt.figure()
-    plt.plot(range(len(distances)), distances, marker="o")
-    plt.title("Context Influence Across Layers")
-    plt.xlabel("Layer")
-    plt.ylabel("Cosine Distance")
-    plt.tight_layout()
-    plt.savefig(
-        results_dir / f"{method}_{dim}d_layers_combined.png",
-        dpi=200,
+def plot_distance(distances, method, dim, out_dir):
+    fig, ax = plt.subplots(figsize=(12, 7))
+
+    ax.plot(
+        range(len(distances)), distances, marker="o", label="Cosine Distance"
     )
 
+    ax.set_title("Context Influence Across Layers", fontsize=20, pad=14)
+    ax.set_xlabel("Layer", fontsize=14)
+    ax.set_ylabel("Cosine Distance", fontsize=14)
 
-def plot_embedding_2d(
-    data, filename, results_dir, get_category, categories, get_color
-):
-    plt.figure(figsize=(10, 8))
+    ax.grid(True, linestyle="--", linewidth=0.8, alpha=0.5)
 
-    for p in data["points"]:
-        marker = "o" if p["context"] == "no_ctx" else "x"
-        color = get_color(get_category(p["task"]))
+    fig.text(
+        0.5,
+        0.92,
+        "Lower means both prompt versions stay closer in representation space. Higher means context changes the representation more.",
+        ha="center",
+        fontsize=10,
+    )
 
-        plt.scatter(p["x"], p["y"], marker=marker, color=color)
-
-        jitter = np.random.randint(2, 6)
-        plt.annotate(
-            str(p["index"]),
-            (p["x"], p["y"]),
-            textcoords="offset points",
-            xytext=(jitter, jitter),
-            fontsize=8,
-        )
-
-    title = f"{data['method'].upper()}-2D Layer {data['layer']}"
-    plt.title(title)
-    plt.tight_layout()
-    plt.savefig(results_dir / filename, dpi=200)
+    plt.tight_layout(rect=[0, 0, 1, 0.90])
+    plt.savefig(out_dir / f"{method}_{dim}d_distance.png", dpi=200)
     plt.close()
 
 
-def plot_embedding_3d(
-    data, filename, results_dir, get_category, categories, get_color
-):
-    fig = plt.figure(figsize=(10, 8))
-    ax = fig.add_subplot(111, projection="3d")
-
-    # Dark theme
-    fig.patch.set_facecolor("#1e1e2e")
-    ax.set_facecolor("#1e1e2e")
-
-    for p in data["points"]:
-        marker = "o" if p["context"] == "no_ctx" else "x"
-        color = get_color(get_category(p["task"]))
-
-        x, y, z = p["x"], p["y"], p["z"]
-
-        ax.scatter(x, y, z, marker=marker, color=color)
-        jitter = np.random.uniform(0.005, 0.02)
-        ax.text(
-            x + jitter,
-            y + jitter,
-            z + jitter,
-            str(p["index"]),
-            fontsize=7,
-        )
-
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_zticks([])
-
-    ax.xaxis.pane.fill = True
-    ax.yaxis.pane.fill = True
-    ax.zaxis.pane.fill = True
-
-    ax.xaxis.pane.set_facecolor("#1e1e2e")
-    ax.yaxis.pane.set_facecolor("#1e1e2e")
-    ax.zaxis.pane.set_facecolor("#1e1e2e")
-
-    ax.grid(False)
-
-    ax.set_title(f"{data['method'].upper()}-3D Layer {data['layer']}")
-
-    fig.legend(
-        handles=build_legend(categories, get_color),
-        loc="upper center",
-        ncol=6,
-        bbox_to_anchor=(0.5, 0.95),
-        frameon=False,
-    )
-
-    plt.tight_layout(rect=[0, 0, 1, 0.92])
-    plt.savefig(results_dir / filename, dpi=200)
-    plt.close()
-
-
-def plot_multi_embedding(
-    layers, results_dir, get_category, categories, get_color
-):
+def plot_multi_embedding(layers, out_dir, get_color):
     num_layers = len(layers)
     dim = layers[0]["dim"]
     method = layers[0]["method"]
@@ -149,77 +97,106 @@ def plot_multi_embedding(
     rows = int(np.ceil(num_layers / cols))
 
     fig = plt.figure(figsize=(4 * cols, 4 * rows))
-
     axes = []
+
     for i in range(num_layers):
-        if dim == 2:
-            ax = fig.add_subplot(rows, cols, i + 1)
-        else:
-            ax = fig.add_subplot(rows, cols, i + 1, projection="3d")
+        ax = fig.add_subplot(rows, cols, i + 1, projection="3d")
         axes.append(ax)
 
-    for _, (layer_data, ax) in enumerate(zip(layers, axes)):
+    for layer_data, ax in zip(layers, axes):
         for p in layer_data["points"]:
             marker = "o" if p["context"] == "no_ctx" else "x"
             color = get_color(get_category(p["task"]))
 
-            if dim == 2:
-                ax.scatter(p["x"], p["y"], marker=marker, color=color)
-            else:
-                ax.scatter(p["x"], p["y"], p["z"], marker=marker, color=color)
+            ax.scatter(
+                p["x"],
+                p["y"],
+                p["z"],
+                marker=marker,
+                color=color,
+                s=22,
+            )
 
-        ax.set_title(f"L{layer_data['layer']}", fontsize=10)
+        ax.set_title(f"L{layer_data['layer']}", fontsize=10, pad=2)
 
-        ax.set_xticks([])
-        ax.set_yticks([])
-        if dim == 3:
-            ax.set_zticks([])
+        # keep ticks tiny but visible
+        ax.tick_params(axis="x", labelsize=5, pad=-2)
+        ax.tick_params(axis="y", labelsize=5, pad=-2)
+        ax.tick_params(axis="z", labelsize=5, pad=-2)
 
-            ax.xaxis.pane.fill = True
-            ax.yaxis.pane.fill = True
-            ax.zaxis.pane.fill = True
+        # subtle pane backgrounds so the grid is actually visible
+        ax.xaxis.pane.fill = True
+        ax.yaxis.pane.fill = True
+        ax.zaxis.pane.fill = True
 
-            ax.xaxis.pane.set_facecolor("#1e1e2e")
-            ax.yaxis.pane.set_facecolor("#1e1e2e")
-            ax.zaxis.pane.set_facecolor("#1e1e2e")
+        ax.xaxis.pane.set_alpha(0.08)
+        ax.yaxis.pane.set_alpha(0.08)
+        ax.zaxis.pane.set_alpha(0.08)
 
-            ax.grid(False)
+        # force visible grid
+        ax.grid(True)
+        for axis in [ax.xaxis, ax.yaxis, ax.zaxis]:
+            axis._axinfo["grid"]["linewidth"] = 0.6
+            axis._axinfo["grid"]["linestyle"] = "--"
+            axis._axinfo["grid"]["alpha"] = 0.35
 
-    for j in range(len(axes), rows * cols):
-        fig.delaxes(fig.add_subplot(rows, cols, j + 1))
-
-    fig.suptitle(
-        f"{method.upper()}-{dim}D Across Layers",
-        fontsize=16,
-        y=0.98,
-    )
-
-    subtitle = (
-        "Points closer together have more similar representations. "
-        "Separation indicates stronger contextual or task-specific divergence."
-    )
+    fig.suptitle(f"{method.upper()}-{dim}D Across Layers", fontsize=18, y=0.985)
 
     fig.text(
         0.5,
-        0.94,
-        subtitle,
+        0.935,
+        "More gap means strong contextual influence",
         ha="center",
-        fontsize=8,
+        fontsize=9,
     )
-
-    legend_elements = build_legend(categories, get_color)
 
     fig.legend(
-        handles=legend_elements,
+        handles=build_legend(get_color),
         loc="upper center",
-        ncol=min(len(legend_elements), 6),
-        bbox_to_anchor=(0.5, 0.90),
+        ncol=7,
+        bbox_to_anchor=(0.5, 0.93),
         frameon=False,
+        fontsize=10,
+        handletextpad=0.6,
+        columnspacing=1.6,
     )
 
-    plt.tight_layout(rect=[0, 0, 1, 0.88])
-    plt.savefig(
-        results_dir / f"{method}_{dim}d_layers_combined.png",
-        dpi=200,
+    plt.subplots_adjust(
+        top=0.84,
+        hspace=0.28,
+        wspace=0.18,
     )
+    plt.savefig(out_dir / f"{method}_{dim}d_layers_combined.png", dpi=200)
     plt.close()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--points", type=str, required=True)
+    parser.add_argument("--out", type=str, default=None)
+    args = parser.parse_args()
+
+    with open(args.points) as f:
+        payload = json.load(f)
+
+    out_dir = Path(args.out) if args.out else Path(args.points).parent
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    get_color = build_colormap(categories)
+
+    plot_distance(
+        payload["distance_per_layer"],
+        payload["method"],
+        payload["dim"],
+        out_dir,
+    )
+
+    plot_multi_embedding(
+        payload["layers"],
+        out_dir,
+        get_color,
+    )
+
+
+if __name__ == "__main__":
+    main()

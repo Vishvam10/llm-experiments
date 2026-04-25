@@ -29,14 +29,34 @@ You can replace this with any local path or Hugging Face model ID.
 
 #### Run experiment
 
+This runs and plots the result
+
 ```bash
 # PCA (deterministic, preserves global structure)
-python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method pca --dim 2
-python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method pca --dim 3
+python main.py --model ~/[your_path]/Qwen2.5-1.5B-Instruct --method pca --dim 2
+python main.py --model ~/[your_path]/Qwen2.5-1.5B-Instruct --method pca --dim 3
 
 # UMAP (non-linear, better local clustering)
-python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method umap --dim 2
-python main.py --model ~/Desktop/Models/Qwen2.5-1.5B-Instruct --method umap --dim 3
+python main.py --model ~/[your_path]/Qwen2.5-1.5B-Instruct --method umap --dim 2
+python main.py --model ~/[your_path]/Qwen2.5-1.5B-Instruct --method umap --dim 3
+```
+
+##### Plotting
+
+This is only required if you plan to modify the plot (style changes, etc) and check the changes out
+
+```bash
+# Only plotting (assuming the experiment is run before). 
+# NOTE : This overwrites the plot that is already generated
+python plot.py --points [path_in_results_folder]
+
+# For eg
+python plot.py --points results/qwen2.5-1.5b-instruct/2026-04-25-18-42/points.json
+
+# Output in a different folder
+python plot.py \
+  --points results/qwen2.5-1.5b-instruct/2026-04-25-18-42/points.json \
+  --out rerenders/
 ```
 
 #### Output
@@ -54,6 +74,7 @@ Containing :
 - distance.png — cosine distance across layers (context vs no context)
 - <method>_<dim>d_layers_combined.png — embeddings across selected layers
 - results.json — metadata and aggregated metrics
+- points.json - contains the raw datapoints for plotting
 ```
 
 > [!NOTE]

@@ -15,7 +15,15 @@ def compute_distances(no_ctx, ctx):
     return distances
 
 
-def compute_embedding(no_ctx, ctx, task_labels, layer_idx, method="pca", dim=2):
+def compute_embedding(
+    no_ctx,
+    ctx,
+    task_labels,
+    layer_idx,
+    outputs=None,
+    method="pca",
+    dim=2,
+):
     X = np.vstack([no_ctx[:, layer_idx, :], ctx[:, layer_idx, :]])
 
     labels_ctx = ["no_ctx"] * len(no_ctx) + ["ctx"] * len(ctx)
@@ -41,12 +49,23 @@ def compute_embedding(no_ctx, ctx, task_labels, layer_idx, method="pca", dim=2):
         raise ValueError("method must be 'pca' or 'umap'")
 
     points = []
+    n = len(task_labels)
+
     for i in range(len(X_emb)):
+        idx = i % n
+        ctx_type = labels_ctx[i]
+
         p = {
-            "context": labels_ctx[i],
+            "context": ctx_type,
             "task": labels_task[i],
-            "index": int(i % len(task_labels)),
+            "index": int(idx),
         }
+
+        if outputs is not None:
+            if ctx_type == "no_ctx":
+                p["correct"] = bool(outputs[idx]["no_ctx_correct"])
+            else:
+                p["correct"] = bool(outputs[idx]["ctx_correct"])
 
         if dim == 2:
             p["x"], p["y"] = float(X_emb[i, 0]), float(X_emb[i, 1])
@@ -65,7 +84,13 @@ def compute_embedding(no_ctx, ctx, task_labels, layer_idx, method="pca", dim=2):
 
 
 def compute_multi_embedding(
-    no_ctx, ctx, task_labels, layer_indices, method="pca", dim=2
+    no_ctx,
+    ctx,
+    task_labels,
+    layer_indices,
+    method="pca",
+    dim=2,
+    outputs=None,
 ):
     return [
         compute_embedding(
@@ -73,6 +98,7 @@ def compute_multi_embedding(
             ctx,
             task_labels,
             layer_idx,
+            outputs=outputs,
             method=method,
             dim=dim,
         )

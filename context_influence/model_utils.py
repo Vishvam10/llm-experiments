@@ -27,7 +27,7 @@ def get_hidden_states(text, model, tokenizer, device):
     with torch.no_grad():
         out = model(**inputs, output_hidden_states=True)
 
-    # Tuple of len = num_layers  :(batch_size, sequence_length, hidden_dim)
+    # Tuple of len = num_layers : (batch_size, sequence_length, hidden_dim)
     hidden_states = out.hidden_states
 
     # Gives number of valid (non-padding) tokens per sequence : (batch_size, )
