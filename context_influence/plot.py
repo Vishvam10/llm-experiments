@@ -61,32 +61,42 @@ def build_legend(get_color):
 
     return elements
 
-
 def plot_distance(distances, method, dim, out_dir):
     fig, ax = plt.subplots(figsize=(12, 7))
 
     ax.plot(
-        range(len(distances)), distances, marker="o", label="Cosine Distance"
+        range(len(distances)),
+        distances,
+        marker="o",
+        label="Cosine Distance",
     )
 
-    ax.set_title("Context Influence Across Layers", fontsize=20, pad=14)
     ax.set_xlabel("Layer", fontsize=14)
     ax.set_ylabel("Cosine Distance", fontsize=14)
 
     ax.grid(True, linestyle="--", linewidth=0.8, alpha=0.5)
 
+    # Title
     fig.text(
         0.5,
-        0.92,
-        "Lower means both prompt versions stay closer in representation space. Higher means context changes the representation more.",
+        0.93,
+        "Context Influence Across Layers",
+        ha="center",
+        fontsize=20,
+    )
+
+    # Subtitle
+    fig.text(
+        0.5,
+        0.895,
+        "Lower means both prompt versions stay closer in representation space.",
         ha="center",
         fontsize=10,
     )
 
-    plt.tight_layout(rect=[0, 0, 1, 0.90])
+    plt.tight_layout(rect=[0, 0, 1, 0.84])
     plt.savefig(out_dir / f"{method}_{dim}d_distance.png", dpi=200)
     plt.close()
-
 
 def plot_multi_embedding(layers, out_dir, get_color):
     num_layers = len(layers)

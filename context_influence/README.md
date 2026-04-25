@@ -13,6 +13,8 @@ Additionally, **PCA and UMAP are used to project these representations into 2D/3
 #### 1. Install dependencies
 
 ```bash
+cd `context_influence`
+
 uv add torch transformers accelerate bitsandbytes datasets matplotlib catppuccin umap-learn scikit-learn
 ```
 
